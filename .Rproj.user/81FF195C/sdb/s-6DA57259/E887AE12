@@ -1,0 +1,16 @@
+{
+    "contents" : "\n# This is the server logic for a Shiny web application.\n# You can find out more about building applications with Shiny here:\n#\n# http://shiny.rstudio.com\n#\n\nlibrary(shiny)\n\ny <- \" ~.\"\nshinyServer(function(input, output) {\n        \n        x <- reactive({input$chgrp1})\n        formulaeText <- renderText({\n                ifelse(substring(y,3) == \".\",paste(\" \", x()),paste(x(),collapse = \"+\"))\n                })\n        \n        output$formulaetxt <- renderText({\n                        y <<- ifelse(length(x()) == 0,\" .\",formulaeText())\n                })\n        \n        \n        output$formulaePlot <- renderPlot({\n                par(mfrow=c(2,2))\n                tryCatch({\n                        z <- (paste(x(),collapse = \"+\"))\n                        plot(lm(as.formula(paste(\"mpg\",z,sep=\"~\")), data = mtcars))\n                },error = function(e){\n                        print(\"********************\")\n                        par(mfrow=c(2,2))\n                        plot(lm(mpg~., data = mtcars))\n                })\n        })\n        \n})",
+    "created" : 1408364303874.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1570954492",
+    "id" : "E887AE12",
+    "lastKnownWriteTime" : 1408449751,
+    "path" : "G:/Projects/R/Developing Data Products/final_project/Shiny/server.R",
+    "project_path" : "server.R",
+    "properties" : {
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}
